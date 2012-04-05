@@ -21,5 +21,6 @@
     - MVP
     - MVVM
 3.  Growing Rich Clients
+    - Creating Reusable Views with the Strategy Pattern
     - Modularization
-    - Region Manager
+    - Layout Manager

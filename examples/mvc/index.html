@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MVC Example</title>
+
+  <script type="text/javascript" src="../extern/jquery-1.7.2.js"></script>
+  <script type="text/javascript" src="../lib/domain.js"></script>
+  <script type="text/javascript" src="validated_input.js"></script>
+  <script type="text/javascript" src="validated_ttl.js"></script>
+  <script type="text/javascript" src="create_domain_form.js"></script>
+</head>
+<body>
+  <div id="form-container"></div>
+  <script type="text/javascript">
+
+    var domain, view;
+
+    domain = new Domain();
+    view = new CreateDomainForm(domain);
+    view.render('#form-container');
+
+  </script>
+</body>
+</html>
