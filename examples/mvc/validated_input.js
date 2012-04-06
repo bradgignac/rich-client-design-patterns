@@ -2,12 +2,14 @@
 
   var ValidatedInput = function (model, key, name) {
 
-    var row, label, input, error, controller;
+    var row, label, input, error, controller, isValid;
 
+    isValid = true;
     controller = new RequiredInputController(this, domain);
 
     this.showValidationMessage = function (message) {
       if (this.isValid()) {
+        isValid = false;
         error = $('<span class="error"></span>').text(message);
         row.append(error);
       }
@@ -15,19 +17,21 @@
 
     this.clearValidationMessage = function () {
       if (!this.isValid()) {
+        isValid = true;
         error.remove();
         error = null;
       }
     }
 
     this.isValid = function () {
-      return error == null;
+      return isValid;
     }
 
     this.render = function (container) {
 
-      var eventProxy = $.proxy(proxyInputEvents, this);
+      var eventProxy;
 
+      eventProxy = $.proxy(proxyInputEvents, this);
       label = $('<label>' + name + '</label>').attr('for', key);
       input = $('<input>').attr({ id: key, type: 'text' });
       input.on('change', eventProxy);

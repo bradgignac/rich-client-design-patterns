@@ -5,23 +5,28 @@
     var controller, inputs;
 
     controller = new CreateDomainFormController(this, domain);
-    inputs = [
+    this.inputs = [
       new ValidatedInput(domain, 'name', 'Name'),
       new ValidatedInput(domain, 'email', 'Email'),
-      new ValidatedTTL(domain)
+      // new ValidatedTTL(domain)
     ];
 
     this.render = function (container) {
 
-      var form = createFormWithInputs(inputs);
-      form.on('submit', $.proxy(handleFormSubmission, this));
+      var form;
+
+      form = this.createForm();
+      form.on('submit', $.proxy(this.handleFormSubmission, this));
 
       $(container).append('<h1>Create Domain</h1>').append(form);
     };
 
-    function createFormWithInputs(inputs) {
-      var form = $('<form></form>');
-      inputs.forEach(function (input) {
+    this.createForm = function () {
+
+      var form;
+
+      form = $('<form></form>');
+      this.inputs.forEach(function (input) {
         input.render(form);
       });
       form.append('<button type="submit">Create Domain</button>');
@@ -29,7 +34,7 @@
       return form;
     };
 
-    function handleFormSubmission(e) {
+    this.handleFormSubmission = function (e) {
       $(this).trigger('submit', e.data);
       return false;
     };
@@ -37,9 +42,18 @@
 
   var CreateDomainFormController = function (view, domain) {
     $(view).on('submit', function () {
-      // Make sure all fields are valid before allowing submission.
-      // If invalid, show an error message.
-      // Otherwise, save the model.
+
+      var isValid;
+
+      isValid = true;
+      view.inputs.forEach(function (input) {
+        isValid = isValid && input.isValid();
+      });
+
+      if (isValid)
+        alert('Valid!');
+      else
+        alert('Invalid');
     });
   };
 
