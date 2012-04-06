@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MVC Example</title>
+
+  <script type="text/javascript" src="../extern/jquery-1.7.2.js"></script>
+  <script type="text/javascript" src="../lib/domain.js"></script>
+</head>
+<body>
+  <div id="form-container">
+    <h1>Create Domain</h1>
+    <form>
+      <div class="row">
+        <label for="name">Name</label>
+        <input id="name" type="text">
+      </div>
+      <div class="row">
+        <label for="email">Email</label>
+        <input id="email" type="text">
+      </div>
+      <div class="row">
+        <label for="ttl_quantity">TTL</label>
+        <input id="ttl_quantity" type="text">
+        <select id="ttl_units">
+          <option>Minutes</option>
+          <option>Seconds</option>
+        </select>
+      </div>
+    </form>
+  </div>
+  <script type="text/javascript" src="app.js"></script>
+</body>
+</html>
