@@ -7,7 +7,6 @@
 
   <script type="text/javascript" src="../extern/jquery-1.7.2.js"></script>
   <script type="text/javascript" src="../lib/domain.js"></script>
-  <script type="text/javascript" src="../lib/domain_view_model.js"></script>
   <script type="text/javascript" src="validated_input.js"></script>
   <script type="text/javascript" src="validated_ttl.js"></script>
   <script type="text/javascript" src="create_domain_form.js"></script>
@@ -26,8 +25,7 @@
     var domain, view;
 
     domain = new Domain();
-    viewModel = new DomainViewModel(domain);
-    view = new CreateDomainForm(viewModel);
+    view = new CreateDomainForm(domain);
     view.render('#form-container');
 
   </script>

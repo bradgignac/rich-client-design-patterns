@@ -17,8 +17,16 @@
         - Backbone.js (2010)
 2.  Design Patterns
     - MVC
-    - Presentation Model
+        - Observer, Strategy, and Composite Patterns
+        - Tightly Coupled Views and Controllers
+        - Reuse through View/Controller Pairs
+        - Display logic may be duplicated
+        - Observer pattern may be confusing
     - MVP
+        - Presenters communicate with view through interface
+        - Presenters are rare at the widget level
+        - More presentation logic reuse
+        - More coupled, more obvious
     - MVVM
 3.  Growing Rich Clients
     - Creating Reusable Views with the Strategy Pattern
