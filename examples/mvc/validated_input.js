@@ -2,36 +2,19 @@
 
   var ValidatedInput = function (model, key, name) {
 
-    var row, label, input, error, controller, isValid;
+    var isValid, controller, row, label, input, error;
 
     isValid = true;
-    controller = new RequiredInputController(this, domain);
+    controller = new ValidatedInputController(this, domain, key);
+    error = $('<span class="error"></span>');
 
-    this.showValidationMessage = function (message) {
-      if (this.isValid()) {
-        isValid = false;
-        error = $('<span class="error"></span>').text(message);
-        row.append(error);
-      }
-    };
-
-    this.clearValidationMessage = function () {
-      if (!this.isValid()) {
-        isValid = true;
-        error.remove();
-        error = null;
-      }
-    }
-
-    this.isValid = function () {
-      return isValid;
-    }
+    $(model).on('valid', $.proxy(clearError, this));
+    $(model).on('invalid', $.proxy(showError, this));
 
     this.render = function (container) {
 
-      var eventProxy;
+      var eventProxy = $.proxy(proxyInputEvents, this);
 
-      eventProxy = $.proxy(proxyInputEvents, this);
       label = $('<label>' + name + '</label>').attr('for', key);
       input = $('<input>').attr({ id: key, type: 'text' });
       input.on('change', eventProxy);
@@ -44,14 +27,26 @@
     function proxyInputEvents() {
       $(this).trigger('change', input.val());
     };
+
+    function clearError(e) {
+      isValid = true;
+      row.removeClass('error');
+      error.remove();
+    }
+
+    function showError(e, data) {
+      if (data.key !== key)
+        return;
+
+      isValid = false;
+      row.removeClass('error');
+      error.text(data.message).appendTo(row);
+    }
   };
 
-  var RequiredInputController = function (view) {
+  var ValidatedInputController = function (view, model, key) {
     $(view).on('change', function (e, value) {
-      if (value)
-        view.clearValidationMessage();
-      else
-        view.showValidationMessage('This field is invalid.');
+      model.set(key, value);
     });
   };
 
