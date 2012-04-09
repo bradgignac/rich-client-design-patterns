@@ -6,7 +6,7 @@
 
     isValid = true;
     controller = new ValidatedInputController(this, domain, key);
-    error = $('<span class="error"></span>');
+    error = $('<span class="help-inline"></span>');
 
     $(model).on('valid', $.proxy(clearError, this));
     $(model).on('invalid', $.proxy(showError, this));
@@ -18,7 +18,7 @@
       label = $('<label>' + name + '</label>').attr('for', key);
       input = $('<input>').attr({ id: key, type: 'text' });
       input.on('change', eventProxy);
-      row = $('<div class="row"></div>')
+      row = $('<div class="control-group"></div>')
         .append(label)
         .append(input)
         .appendTo(container);
@@ -29,7 +29,6 @@
     };
 
     function clearError(e) {
-      isValid = true;
       row.removeClass('error');
       error.remove();
     }
@@ -38,8 +37,7 @@
       if (data.key !== key)
         return;
 
-      isValid = false;
-      row.removeClass('error');
+      row.addClass('error');
       error.text(data.message).appendTo(row);
     }
   };

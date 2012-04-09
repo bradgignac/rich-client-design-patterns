@@ -17,19 +17,20 @@
 
       form = this.createForm();
       form.on('submit', $.proxy(this.handleFormSubmission, this));
-
-      $(container).append('<h1>Create Domain</h1>').append(form);
+      form.appendTo(container);
     };
 
     this.createForm = function () {
 
-      var form;
+      var form, fieldset;
 
-      form = $('<form></form>');
+      form = $('<form class="form-horizontal"></form>');
+      fieldset = $('<fieldset><legend>Create Domain</legend></fieldset>');
       this.inputs.forEach(function (input) {
-        input.render(form);
+        input.render(fieldset);
       });
-      form.append('<button type="submit">Create Domain</button>');
+      fieldset.append('<button class="btn" type="submit">Create Domain</button>');
+      fieldset.appendTo(form);
 
       return form;
     };
