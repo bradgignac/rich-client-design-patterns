@@ -1,53 +1,50 @@
-(function (exports) {
+var ValidatedInput = function (model, key, name) {
 
-  var ValidatedInput = function (model, key, name) {
+  var isValid, controller, row, label, input, error;
 
-    var isValid, controller, row, label, input, error;
+  isValid = true;
+  controller = new ValidatedInputController(this, domain, key);
 
-    isValid = true;
-    controller = new ValidatedInputController(this, domain, key);
+  $(model).on('invalid', $.proxy(showError, this));
+  $(model).on('valid', $.proxy(clearError, this));
+
+  this.render = function (container) {
+
+    var eventProxy = $.proxy(proxyInputEvents, this);
+
+    label = $('<label>' + name + '</label>').attr('for', key);
+    input = $('<input>').attr({ id: key, type: 'text' });
+    input.on('change', eventProxy);
     error = $('<span class="help-inline"></span>');
-
-    $(model).on('valid', $.proxy(clearError, this));
-    $(model).on('invalid', $.proxy(showError, this));
-
-    this.render = function (container) {
-
-      var eventProxy = $.proxy(proxyInputEvents, this);
-
-      label = $('<label>' + name + '</label>').attr('for', key);
-      input = $('<input>').attr({ id: key, type: 'text' });
-      input.on('change', eventProxy);
-      row = $('<div class="control-group"></div>')
-        .append(label)
-        .append(input)
-        .appendTo(container);
-    };
-
-    function proxyInputEvents() {
-      $(this).trigger('change', input.val());
-    };
-
-    function clearError(e) {
-      row.removeClass('error');
-      error.remove();
-    }
-
-    function showError(e, data) {
-      if (data.key !== key)
-        return;
-
-      row.addClass('error');
-      error.text(data.message).appendTo(row);
-    }
+    row = $('<div class="control-group"></div>')
+      .append(label)
+      .append(input)
+      .appendTo(container);
   };
 
-  var ValidatedInputController = function (view, model, key) {
-    $(view).on('change', function (e, value) {
-      model.set(key, value);
-    });
+  function proxyInputEvents() {
+    $(this).trigger('change', input.val());
   };
 
-  this.ValidatedInput = ValidatedInput;
+  function showError(e, property, message) {
+    if (property !== key)
+      return;
 
-}(window));
+    row.addClass('error');
+    error.text(message).appendTo(row);
+  }
+
+  function clearError(e, property) {
+    if (property !== key)
+      return;
+
+    row.removeClass('error');
+    error.remove();
+  }
+};
+
+var ValidatedInputController = function (view, model, key) {
+  $(view).on('change', function (e, value) {
+    model.set(key, value);
+  });
+};
