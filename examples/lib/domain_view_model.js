@@ -6,24 +6,43 @@ var DomainViewModel = function (domain) {
     domain.set(key, value);
   };
 
+  this.setTTL = function (value, unit) {
+
+    var ttlInSeconds;
+
+    if (unit === 'Seconds')
+      ttlInSeconds = value;
+    else
+      ttlInSeconds = value * 60;
+
+    domain.set('ttl', ttlInSeconds);
+  };
+
   this.get = function (key) {
     return domain.get(key);
   };
 
   this.validate = function () {
-    var errors = [];
-    errors.push(validateName());
-    errors.push(validateEmail());
-    errors.push(validateTTL());
+    var self, errors;
 
-    $.grep(errors, function (error) {
-      return error !== undefined;
+    self = this;
+    errors = [];
+    errors.push({ key: 'name', message: validateName.call(this) });
+    errors.push({ key: 'email', message: validateEmail.call(this) });
+    errors.push({ key: 'ttl', message: validateTTL.call(this) });
+    errors = $.grep(errors, function (error) {
+      return error.message !== undefined;
+    })
+
+    $.each(errors, function (i, error) {
+      fireEventForError.call(self, error.key, error.message);
     });
 
     return errors;
   };
 
   this.isValid = function () {
+    var errors = this.validate();
     return this.validate().length === 0;
   }
 
@@ -35,23 +54,31 @@ var DomainViewModel = function (domain) {
       error = validateName.call(this);
     else if (data.key === 'email')
       error = validateEmail.call(this);
+    else if (data.key === 'ttl')
+      error = validateTTL.call(this);
 
-    if (error)
-      $(this).trigger('invalid', [data.key, error]);
-    else
-      $(this).trigger('valid', [data.key]);
+    fireEventForError.call(this, data.key, error);
   };
 
   function validateName() {
-    var name = this.get('name');
-    if (!name)
+    if (!this.get('name'))
       return 'Name cannot be empty.';
-    if (name.length > 10)
+    else if (this.get('name').length > 10)
       return 'Name cannot be longer than 10 characters.';
   }
 
-  function validateEmail(data, errors) {
+  function validateEmail() {
     if (!this.get('email'))
       return 'Email cannot be empty.';
+  }
+
+  function validateTTL() {
+    if (!this.get('ttl') || this.get('ttl') < 300)
+      return 'TTL must be greater than 300 seconds.';
+  }
+
+  function fireEventForError(key, message) {
+    var eventType = message ? 'invalid' : 'valid';
+    $(this).trigger(eventType, [key, message]);
   }
 };

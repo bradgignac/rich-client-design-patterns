@@ -6,7 +6,7 @@ var CreateDomainForm = function (domain) {
   this.inputs = [
     new ValidatedInput(domain, 'name', 'Name'),
     new ValidatedInput(domain, 'email', 'Email'),
-    // new ValidatedTTL(domain)
+    new ValidatedTTL(domain, 'TTL')
   ];
 
   this.render = function (container) {
@@ -34,6 +34,7 @@ var CreateDomainForm = function (domain) {
   };
 
   this.handleFormSubmission = function (e) {
+    $('input', e.target).trigger('blur');
     $(this).trigger('submit', e.data);
     return false;
   };
@@ -41,17 +42,9 @@ var CreateDomainForm = function (domain) {
 
 var CreateDomainFormController = function (view, domain) {
   $(view).on('submit', function () {
-
-    var isValid;
-
-    isValid = true;
-    view.inputs.forEach(function (input) {
-      isValid = isValid && input.isValid();
-    });
-
-    if (isValid)
+    if (domain.isValid())
       alert('Valid!');
     else
-      alert('Invalid');
+      alert('Invalid.');
   });
 };

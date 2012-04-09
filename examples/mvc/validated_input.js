@@ -1,8 +1,7 @@
 var ValidatedInput = function (model, key, name) {
 
-  var isValid, controller, row, label, input, error;
+  var controller, row, label, input, error;
 
-  isValid = true;
   controller = new ValidatedInputController(this, domain, key);
 
   $(model).on('invalid', $.proxy(showError, this));
