@@ -27,14 +27,13 @@ var CreateDomainForm = function (domain) {
     this.inputs.forEach(function (input) {
       input.render(fieldset);
     });
-    fieldset.append('<button class="btn" type="submit">Create Domain</button>');
+    fieldset.append('<button class="btn btn-primary" type="submit">Create Domain</button>');
     fieldset.appendTo(form);
 
     return form;
   };
 
   this.handleFormSubmission = function (e) {
-    $('input', e.target).trigger('blur');
     $(this).trigger('submit', e.data);
     return false;
   };
