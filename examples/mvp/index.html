@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MVP Example</title>
+
+  <link type="text/css" rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+
+  <script type="text/javascript" src="../extern/jquery-1.7.2.js"></script>
+  <script type="text/javascript" src="../lib/domain.js"></script>
+  <script type="text/javascript" src="validated_input.js"></script>
+  <script type="text/javascript" src="validated_ttl.js"></script>
+  <script type="text/javascript" src="create_domain_form.js"></script>
+
+  <style type="text/css">
+    #form-container {
+      margin: 30px;
+    }
+
+    input + select {
+      margin-left: 5px;
+    }
+  </style>
+  </head>
+</head>
+<body>
+  <div id="form-container"></div>
+  <script type="text/javascript">
+
+    var domain, view, presenter;
+
+    domain = new Domain();
+    view = new CreateDomainForm();
+    view.render('#form-container');
+    presenter = new CreateDomainPresenter(view, domain);
+
+  </script>
+</body>
+</html>
