@@ -1,4 +1,4 @@
-var CreateDomainForm = function (view, domain) {
+var CreateDomainForm = function () {
 
   var nameInput, emailInput, ttlInput;
 
