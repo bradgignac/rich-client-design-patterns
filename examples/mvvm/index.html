@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MVVM Example</title>
+
+  <link type="text/css" rel="stylesheet" href="../css/bootstrap/css/bootstrap.min.css">
+  <link type="text/css" rel="stylesheet" href="../css/styles.css">
+
+  <script type="text/javascript" src="../extern/jquery-1.7.2.js"></script>
+  <script type="text/javascript" src="../lib/domain.js"></script>
+  <script type="text/javascript" src="validated_input.js"></script>
+  <script type="text/javascript" src="validated_ttl.js"></script>
+  <script type="text/javascript" src="create_domain_form.js"></script>
+  </head>
+</head>
+<body>
+  <div id="form-container"></div>
+  <script type="text/javascript">
+
+    var domain, viewModel, view;
+
+    domain = new Domain();
+    viewModel = new CreateDomainViewModel(domain);
+    view = new CreateDomainForm(viewModel);
+    view.render('#form-container');
+
+  </script>
+</body>
+</html>
