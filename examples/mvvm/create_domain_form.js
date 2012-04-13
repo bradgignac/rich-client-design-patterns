@@ -23,13 +23,7 @@ var CreateDomainForm = function (viewModel) {
   };
 
   function handleFormSubmission(e) {
-    console.log('test');
-    try {
-      viewModel.submit();
-    }
-    catch (err) {
-      console.log(err);
-    }
+    viewModel.submit();
     return false;
   };
 };
