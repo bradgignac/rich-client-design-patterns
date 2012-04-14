@@ -1,0 +1,1 @@
+View the presentation on [Speaker Deck](http://speakerdeck.com/u/bradgignac/p/rich-client-design-patterns).
